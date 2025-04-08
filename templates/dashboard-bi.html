@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard con opciones</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Sube tu archivo CSV</h1>
+
+  <!-- Formulario -->
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="archivo" accept=".csv" required />
+    
+    <label for="tipo_grafico">Tipo de gráfico:</label>
+    <select name="tipo_grafico">
+      <option value="bar" {% if chart_type == 'bar' %}selected{% endif %}>Barras</option>
+      <option value="line" {% if chart_type == 'line' %}selected{% endif %}>Líneas</option>
+      <option value="pie" {% if chart_type == 'pie' %}selected{% endif %}>Pastel</option>
+    </select>
+
+    <button type="submit">Cargar y Graficar</button>
+  </form>
+
+  {% if labels and ventas %}
+    <h2>Gráfico generado</h2>
+    <div style="width: 600px; margin: auto;">
+      <canvas id="graficoVentas"></canvas>
+    </div>
+
+    <h2>Resumen de Ventas</h2>
+    <ul>
+      <li><strong>Total:</strong> ${{ resumen.total }}</li>
+      <li><strong>Promedio:</strong> ${{ resumen.promedio }}</li>
+      <li><strong>Máximo:</strong> ${{ resumen.maximo }}</li>
+    </ul>
+  {% endif %}
+
+  <script>
+    {% if labels and ventas %}
+    const labels = {{ labels | tojson }};
+    const data = {{ ventas | tojson }};
+    const chartType = "{{ chart_type }}";
+
+    const ctx = document.getElementById('graficoVentas').getContext('2d');
+
+    const config = {
+      type: chartType,
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Ventas ($)',
+          data: data,
+          backgroundColor: chartType === 'pie' ? [
+            '#52796f', '#84a98c', '#cad2c5', '#354f52', '#2f3e46'
+          ] : '#52796f',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: chartType !== 'pie' ? {
+          y: { beginAtZero: true }
+        } : {}
+      }
+    };
+
+    new Chart(ctx, config);
+    {% endif %}
+  </script>
+</body>
+</html>

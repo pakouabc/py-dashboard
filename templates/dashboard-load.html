@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard desde archivo CSV</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Sube tu archivo CSV</h1>
+
+  <!-- Formulario para subir el archivo -->
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="archivo" accept=".csv" required />
+    <button type="submit">Cargar y Graficar</button>
+  </form>
+
+  {% if labels and ventas %}
+    <h2>Gráfico generado:</h2>
+    <div style="width: 600px; margin: auto;">
+      <canvas id="graficoVentas"></canvas>
+    </div>
+  {% endif %}
+
+  <script>
+    {% if labels and ventas %}
+    const labels = {{ labels | tojson }};
+    const data = {{ ventas | tojson }};
+
+    const ctx = document.getElementById('graficoVentas').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Ventas ($)',
+          data: data,
+          backgroundColor: '#52796f'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    {% endif %}
+  </script>
+</body>
+</html>

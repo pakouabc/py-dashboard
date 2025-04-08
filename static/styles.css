@@ -1,0 +1,91 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo general */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    display: grid;
+    grid-template-areas: 
+      "header header"
+      "nav main"
+      "footer footer";
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 60px 1fr 40px;
+    min-height: 100vh;
+  }
+  
+  /* Header */
+  header {
+    grid-area: header;
+    background-color: #2f3e46;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  /* Navegación */
+  nav {
+    grid-area: nav;
+    background-color: #354f52;
+    padding: 20px;
+  }
+  
+  nav ul {
+    list-style: none;
+  }
+  
+  nav li {
+    margin-bottom: 15px;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  /* Contenido principal */
+  main {
+    grid-area: main;
+    padding: 20px;
+  }
+  
+  /* KPIs */
+  .kpis {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .kpi {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+  
+  /* Gráficas */
+  .graficas .grafico {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  /* Footer */
+  footer {
+    grid-area: footer;
+    background-color: #2f3e46;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
+  

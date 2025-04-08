@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard desde CSV</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Dashboard de Ventas (datos desde CSV)</h1>
+
+  <div style="width: 600px; margin: auto;">
+    <canvas id="graficoVentas"></canvas>
+  </div>
+
+  <script>
+    // Recibir datos desde Flask
+    const labels = {{ labels | tojson }};
+    const data = {{ ventas | tojson }};
+
+    const ctx = document.getElementById('graficoVentas').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Ventas ($)',
+          data: data,
+          backgroundColor: '#52796f'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
